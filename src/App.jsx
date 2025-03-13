@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
 
 const TOKEN = "9e6c009b-1288-4a6b-a018-6a9e2b68c3d9";
 
@@ -48,6 +49,7 @@ function App() {
   return (
     <div>
       <Navbar />
+      <HomePage data={fetchedData}/>
     </div>
   );
 }
