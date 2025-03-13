@@ -1,10 +1,21 @@
-export default function TaskStatusColumn({ status }) {
+import TaskCard from "./TaskCard";
+
+export default function TaskStatusColumn({ color, status, tasks }) {
   return (
     <div className="flex w-[381px] flex-col gap-y-[30px] pt-[79px]">
-      <h2 className="w-[100%] rounded-[10px] py-[15px] text-center text-[20px] font-medium text-white">
+      <h2
+        className="w-[100%] rounded-[10px] py-[15px] text-center text-[20px] font-medium text-white"
+        style={{ backgroundColor: color }}
+      >
         {status}
       </h2>
-      <div className="flex w-[100%] flex-col gap-y-[30px]">Task List</div>
+      <div className="flex w-[100%] flex-col gap-y-[30px]">
+        {tasks.map((task, i) => {
+          if (task.status.name == status) {
+            return <TaskCard key={i} taskData={task} color={color}/>;
+          }
+        })}
+      </div>
     </div>
   );
 }
