@@ -1,9 +1,5 @@
-@import url("https://free.bboxtype.com/embedfonts/?family=FiraGO:400,500,700");
+@import url("https://free.bboxtype.com/embedfonts/?family=FiraGO:400,500,600,700");
 @import "tailwindcss";
-
-@theme {
-  --color-blue-violet: #8338ec;
-}
 
 * {
   font-family: "FiraGO", sans-serif;
