@@ -3,10 +3,9 @@ import Input from "./Input";
 import Cancel from "../assets/Cancel.svg";
 import FileInput from "./FileInput";
 import { useState } from "react";
-import { validCharacters } from "../../regex";
 
 export default function AddEmployeeModal({ onClose, departments }) {
-  const departmentOptions = departments.map((department) => department.name);
+  // const departmentOptions = departments.map((department) => department.name);
   const [employeeCredentials, setEmployeeCredentials] = useState({
     name: undefined,
     surname: undefined,
@@ -68,7 +67,7 @@ export default function AddEmployeeModal({ onClose, departments }) {
 
           <div className="w-[384px] self-start">
             <Dropdown
-              options={departmentOptions}
+              options={departments}
               defaultValue=" "
               onFillField={handleFillField}
             />

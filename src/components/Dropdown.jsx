@@ -10,9 +10,9 @@ export default function Dropdown({ options, defaultValue, onFillField }) {
     setIsOpen(() => !isOpen);
   };
 
-  const handleSelectOption = (refValue) => {
+  const handleSelectOption = (refValue, index) => {
     setSelectedOption(refValue);
-    onFillField("department", refValue);
+    onFillField("department", index);
     setIsOpen(false);
   };
 
@@ -38,10 +38,10 @@ export default function Dropdown({ options, defaultValue, onFillField }) {
               className="py-[10px]"
               ref={(elem) => (optionRef.current[index] = elem)}
               onClick={() =>
-                handleSelectOption(optionRef.current[index].innerText)
+                handleSelectOption(optionRef.current[index].innerText, index)
               }
             >
-              {option}
+              {option.name}
             </li>
           ))}
         </ul>
