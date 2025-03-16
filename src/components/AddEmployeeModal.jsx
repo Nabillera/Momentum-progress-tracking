@@ -1,10 +1,41 @@
 import Dropdown from "./Dropdown";
 import Input from "./Input";
 import Cancel from "../assets/Cancel.svg";
-import UploadIcon from "../assets/ImageUpload.svg";
+import FileInput from "./FileInput";
+import { useState } from "react";
+import { validCharacters } from "../../regex";
 
 export default function AddEmployeeModal({ onClose, departments }) {
   const departmentOptions = departments.map((department) => department.name);
+  const [employeeCredentials, setEmployeeCredentials] = useState({
+    name: undefined,
+    surname: undefined,
+    department: undefined,
+    avatar: undefined,
+  });
+
+  const handleFillField = (field, value) => {
+    console.log(field + " " + value);
+    setEmployeeCredentials((previousCredentials) => {
+      return {
+        ...previousCredentials,
+        [field]: value,
+      };
+    });
+  };
+
+  const handleSubmit = () => {
+    if (!employeeCredentials.name || !employeeCredentials.surname) {
+      alert(
+        "Please fill the fields accordingly: \n\u2022 2 symbols minimum\n\u2022 255 symbols maximum\n\u2022 Latin or Georgian characters only, no spaces",
+      );
+    } else if (!employeeCredentials.avatar) {
+      alert("Please upload an avatar");
+    } else if (!employeeCredentials.department) {
+      alert("Please select a department");
+    }
+    console.log(employeeCredentials);
+  };
 
   return (
     <div
@@ -25,27 +56,22 @@ export default function AddEmployeeModal({ onClose, departments }) {
             თანამშრომლის დამატება
           </h2>
           <div className="flex w-[100%] gap-x-[45px]">
-            <Input label="სახელი*" />
-            <Input label="გვარი*" />
-          </div>
-
-          <div className="relative flex w-[100%] flex-col">
-            <label className="text-[14px] font-medium text-[#343A40]">
-              ავატარი*
-            </label>
-            <div className="flex h-[120px] flex-col items-center pt-[50px]">
-              <img src={UploadIcon} />
-              <span className="text-[14px] text-[#0D0F10]">ატვირთე ფოტო</span>
-            </div>
-            <input
-              type="file"
-              accept="image/*"
-              className="absolute top-[25px] h-[120px] w-[100%] cursor-pointer rounded-[8px] border border-dashed border-[#CED4DA] text-center text-white"
+            <Input label="სახელი*" onFillField={handleFillField} name="name" />
+            <Input
+              label="გვარი*"
+              onFillField={handleFillField}
+              name="surname"
             />
           </div>
 
+          <FileInput onFillField={handleFillField} />
+
           <div className="w-[384px] self-start">
-            <Dropdown options={departmentOptions} defaultValue=" " />
+            <Dropdown
+              options={departmentOptions}
+              defaultValue=" "
+              onFillField={handleFillField}
+            />
           </div>
 
           <div className="flex gap-x-[22px] self-end">
@@ -55,7 +81,10 @@ export default function AddEmployeeModal({ onClose, departments }) {
             >
               გაუქმება
             </button>
-            <button className="cursor-pointer rounded-[5px] border border-[#8338EC] bg-[#8338EC] px-[16px] py-[10px] text-[18px] leading-[16px] text-white transition hover:border-[#B588F4] hover:bg-[#B588F4]">
+            <button
+              className="cursor-pointer rounded-[5px] border border-[#8338EC] bg-[#8338EC] px-[16px] py-[10px] text-[18px] leading-[16px] text-white transition hover:border-[#B588F4] hover:bg-[#B588F4]"
+              onClick={handleSubmit}
+            >
               დაამატე თანამშრომელი
             </button>
           </div>

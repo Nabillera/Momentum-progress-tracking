@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import ArrowDown from "../assets/ArrowDown.svg";
 
-export default function Dropdown({ options, defaultValue }) {
+export default function Dropdown({ options, defaultValue, onFillField }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(defaultValue);
   const optionRef = useRef([]);
@@ -12,6 +12,7 @@ export default function Dropdown({ options, defaultValue }) {
 
   const handleSelectOption = (refValue) => {
     setSelectedOption(refValue);
+    onFillField("department", refValue);
     setIsOpen(false);
   };
 
