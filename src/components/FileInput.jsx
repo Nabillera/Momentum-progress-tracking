@@ -28,7 +28,7 @@ export default function FileInput({ onFillField }) {
 
     const fileUrl = URL.createObjectURL(file);
     setValidAvatar({ file: file, url: fileUrl });
-    onFillField("avatar", fileUrl);
+    onFillField("avatar", file);
     return () => URL.revokeObjectURL(fileUrl);
   };
 

@@ -3,6 +3,7 @@ import Input from "./Input";
 import Cancel from "../assets/Cancel.svg";
 import FileInput from "./FileInput";
 import { useState } from "react";
+import { postEmployee } from "../../api/index.js";
 
 export default function AddEmployeeModal({ onClose, departments }) {
   // const departmentOptions = departments.map((department) => department.name);
@@ -34,6 +35,7 @@ export default function AddEmployeeModal({ onClose, departments }) {
       alert("Please select a department");
     }
     console.log(employeeCredentials);
+    postEmployee(employeeCredentials);
   };
 
   return (

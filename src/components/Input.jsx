@@ -49,8 +49,6 @@ export default function Input({ label, isTextarea, onFillField, name }) {
         ? "border-[#08A508]"
         : "border-[#FA4D4D]";
 
-  console.log(inputBorderColor);
-
   const handleValidation = () => {
     // const minWordsResult = true;
     const minCharsResult = validMinimumLength.test(userInput.current.value);
