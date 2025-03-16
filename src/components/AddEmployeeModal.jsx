@@ -40,7 +40,7 @@ export default function AddEmployeeModal({ onClose, departments }) {
 
   return (
     <div
-      className="absolute flex h-[100%] w-[100%] justify-center bg-[#0D0F1026] pt-[118px] backdrop-blur-[5px]"
+      className="absolute z-1 flex h-[100%] w-[100%] justify-center bg-[#0D0F1026] pt-[118px] backdrop-blur-[5px]"
       onClick={onClose}
     >
       <div
