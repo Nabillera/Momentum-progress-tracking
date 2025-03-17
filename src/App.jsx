@@ -3,6 +3,8 @@ import "./App.css";
 import AddEmployeeModal from "./components/AddEmployeeModal";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
+import CreateTaskPage from "./pages/CreateTaskPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const TOKEN = "9e6c009b-1288-4a6b-a018-6a9e2b68c3d9";
 
@@ -55,14 +57,22 @@ function App() {
 
   return (
     <div>
-      <Navbar onAddEmployee={() => handleShowModal(true)} />
-      {showModal && (
-        <AddEmployeeModal
-          onClose={() => handleShowModal(false)}
-          departments={fetchedData.departments}
-        />
-      )}
-      <HomePage data={fetchedData} />
+      <BrowserRouter>
+        <Navbar onAddEmployee={() => handleShowModal(true)} />
+        {showModal && (
+          <AddEmployeeModal
+            onClose={() => handleShowModal(false)}
+            departments={fetchedData.departments}
+          />
+        )}
+        <Routes>
+          <Route index element={<HomePage data={fetchedData} />} />
+          <Route
+            path="create-task"
+            element={<CreateTaskPage data={fetchedData} />}
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
