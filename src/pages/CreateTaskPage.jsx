@@ -2,6 +2,8 @@ import { useState } from "react";
 import DatePicker from "../components/DatePicker";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input";
+import { postTask } from "../../api";
+import { Link } from "react-router-dom";
 
 export default function CreateTaskPage({ data, onAddEmployee }) {
   let defaultDate = new Date();
@@ -52,6 +54,7 @@ export default function CreateTaskPage({ data, onAddEmployee }) {
     } else if (!taskInformation.employee) {
       alert("Please select an employee");
     }
+    postTask(taskInformation);
   };
 
   return (
@@ -113,9 +116,14 @@ export default function CreateTaskPage({ data, onAddEmployee }) {
                 onFillField={handleFillField}
               />
             </div>
-            <button className="cursor-pointer self-end rounded-[5px] bg-[#8338EC] px-[20px] py-[10px] text-[18px] text-white hover:bg-[#B588F4]">
-              დავალების შექმნა
-            </button>
+            <Link to="/" className="self-end">
+              <button
+                className="cursor-pointer rounded-[5px] bg-[#8338EC] px-[20px] py-[10px] text-[18px] text-white hover:bg-[#B588F4]"
+                onClick={handleSubmit}
+              >
+                დავალების შექმნა
+              </button>
+            </Link>
           </div>
         </div>
       </div>

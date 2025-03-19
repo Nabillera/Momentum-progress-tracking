@@ -32,3 +32,23 @@ export function putStatus(taskId, statusId) {
     console.log(result);
   });
 }
+
+export function postTask(data) {
+  const formData = new FormData();
+  formData.append("name", data.name);
+  formData.append("description", data.description);
+  formData.append("due_date", data.date);
+  formData.append("status_id", data.status);
+  formData.append("employee_id", data.employee);
+  formData.append("priority_id", data.priority);
+  fetch(`https://momentum.redberryinternship.ge/api/tasks`, {
+    method: "post",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    body: formData,
+  }).then(async (res) => {
+    const result = await res.json();
+    console.log(result);
+  });
+}
