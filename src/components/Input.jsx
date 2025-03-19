@@ -3,107 +3,131 @@ import CheckGrey from "../assets/CheckGrey.svg";
 import CheckGreen from "../assets/CheckGreen.svg";
 import CheckRed from "../assets/CheckRed.svg";
 import {
+  validMinimumLengthModal,
   validMinimumLength,
   validMaximumLength,
   validCharacters,
+  validMinimumWords,
 } from "../../regex";
 
-export default function Input({ label, isTextarea, onFillField, name }) {
+export default function Input({
+  label,
+  isTextarea,
+  onFillField,
+  name,
+  isModal,
+}) {
   const [validFields, setValidFields] = useState({
-    //  minChars: undefined,
+    minChars: undefined,
     minWords: undefined,
     maxChars: undefined,
     validChars: undefined,
   });
   const userInput = useRef();
 
-  const minCheckIcon =
-    validFields.minChars == undefined
-      ? CheckGrey
-      : validFields.minChars
-        ? CheckGreen
-        : CheckRed;
-  const maxCheckIcon =
-    validFields.maxChars == undefined
-      ? CheckGrey
-      : validFields.maxChars
-        ? CheckGreen
-        : CheckRed;
-
-  const [minWordsColor, minCharsColor, maxCharsColor] = [
-    "minWords",
-    "minChars",
-    "maxChars",
-  ].map((key) =>
-    validFields[key] == undefined
-      ? "text-[#6C757D]"
-      : validFields[key]
-        ? "text-[#08A508]"
-        : "text-[#FA4D4D]",
+  // validation message colors
+  const keys = ["minWords", "minChars", "maxChars", "validChars"];
+  const [minWordsIcon, minCheckIcon, maxCheckIcon, charsCheckIcon] = keys.map(
+    (key) =>
+      validFields[key] == undefined
+        ? CheckGrey
+        : validFields[key]
+          ? CheckGreen
+          : CheckRed,
   );
-
+  const [minWordsColor, minCharsColor, maxCharsColor, validCharsColor] =
+    keys.map((key) =>
+      validFields[key] == undefined
+        ? "text-[#6C757D]"
+        : validFields[key]
+          ? "text-[#08A508]"
+          : "text-[#FA4D4D]",
+    );
   const inputBorderColor =
-    validFields.minChars == undefined && validFields.maxChars == undefined
-      ? "border-[#CED4DA]"
-      : validFields.minChars && validFields.maxChars
-        ? "border-[#08A508]"
-        : "border-[#FA4D4D]";
+    (!validFields.minChars && validFields.minChars != undefined) ||
+    (!validFields.maxChars && validFields.maxChars != undefined)
+      ? "border-[#FA4D4D]"
+      : "border-[#CED4DA]";
 
+  // fill validated fields
   const handleValidation = () => {
-    // const minWordsResult = true;
-    const minCharsResult = validMinimumLength.test(userInput.current.value);
-    const maxCharsResult = validMaximumLength.test(userInput.current.value);
-    const validCharsResult = validCharacters.test(userInput.current.value);
-
-    if (!isTextarea) {
+    let input = userInput.current.value;
+    if (isModal) {
+      // for employee modal inputs
+      const minCharsResult = validMinimumLengthModal.test(input);
+      const maxCharsResult = validMaximumLength.test(input);
+      const validCharsResult = validCharacters.test(input);
       setValidFields({
         minChars: minCharsResult,
+        minWords: undefined,
         maxChars: maxCharsResult,
         validChars: validCharsResult,
-        // minWords: undefined,
       });
       if (minCharsResult && maxCharsResult && validCharsResult) {
-        onFillField(name, userInput.current.value);
+        onFillField(name, input);
       } else {
         onFillField(name, undefined);
       }
-    } else {
+    } else if (isTextarea) {
+      // for new task description
+      const minWordsResult = validMinimumWords.test(input);
+      const maxCharsResult = validMaximumLength.test(input);
       setValidFields({
-        // minWords: minWordsResult,
-        maxChars: maxCharsResult,
-        validChars: validCharsResult,
         minChars: undefined,
+        minWords: minWordsResult,
+        maxChars: maxCharsResult,
+        validChars: undefined,
       });
-      // if (minWordsResult && maxCharsResult && validCharsResult) {
-      //   onFillField(name, userInput.current.value);
-      // } else {
-      //   onFillField(name, undefined);
-      // }
+      if ((minWordsResult && maxCharsResult) || input == undefined) {
+        onFillField(name, input);
+      } else {
+        onFillField(name, false);
+      }
+    } else {
+      // for new task title
+      const minCharsResult = validMinimumLength.test(input);
+      const maxCharsResult = validMaximumLength.test(input);
+      setValidFields({
+        minChars: minCharsResult,
+        minWords: undefined,
+        maxChars: maxCharsResult,
+        validChars: undefined,
+      });
+      if (minCharsResult && maxCharsResult) {
+        onFillField(name, input);
+      } else {
+        onFillField(name, undefined);
+      }
     }
   };
 
   return (
     <div className="flex w-[100%] flex-col">
-      <label className="text-[14px] font-medium text-[#343A40]">{label}</label>
+      <label
+        className={`py-[6px] ${isModal ? "text-[14px]" : "text-[16px] leading-[19px]"} font-medium text-[#343A40]`}
+      >
+        {label}
+      </label>
       {isTextarea ? (
         <textarea
           ref={userInput}
           onChange={handleValidation}
-          className={`${inputBorderColor} mt-[3px] mb-[6px] h-[133px] w-[100%] resize-none rounded-[6px] border p-[14px] outline-0`}
+          className={`${inputBorderColor} mb-[6px] h-[133px] w-[100%] resize-none rounded-[6px] border bg-white p-[14px] outline-0`}
         />
       ) : (
         <input
           ref={userInput}
           onChange={handleValidation}
-          className={`${inputBorderColor} mt-[3px] mb-[6px] h-[42px] w-[100%] rounded-[6px] border p-[14px] outline-0`}
+          className={`${inputBorderColor} mb-[6px] ${isModal ? "h-[42px]" : "h-[45px]"} w-[100%] rounded-[6px] border bg-white p-[14px] outline-0`}
         />
       )}
       <div className="flex items-center gap-x-[2px]">
-        <img src={minCheckIcon} />
+        <img src={isTextarea ? minWordsIcon : minCheckIcon} />
         <span
           className={`${isTextarea ? minWordsColor : minCharsColor} text-[10px]`}
         >
-          მინიმუმ {isTextarea ? "4 სიტყვა" : "2 სიმბოლო"}
+          მინიმუმ{" "}
+          {isTextarea ? "4 სიტყვა" : isModal ? "2 სიმბოლო" : "3 სიმბოლო"}
         </span>
       </div>
 
@@ -113,6 +137,15 @@ export default function Input({ label, isTextarea, onFillField, name }) {
           მაქსიმუმ 255 სიმბოლო
         </span>
       </div>
+
+      {isModal && (
+        <div className="flex items-center gap-x-[2px]">
+          <img src={charsCheckIcon} />
+          <span className={`${validCharsColor} text-[10px]`}>
+            ლათინური და ქართული ასოები
+          </span>
+        </div>
+      )}
     </div>
   );
 }
