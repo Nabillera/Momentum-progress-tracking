@@ -65,11 +65,16 @@ function App() {
             departments={fetchedData.departments}
           />
         )}
-        <Routes>
+        <Routes id="routes">
           <Route index element={<HomePage data={fetchedData} />} />
           <Route
             path="create-task"
-            element={<CreateTaskPage data={fetchedData} />}
+            element={
+              <CreateTaskPage
+                data={fetchedData}
+                onAddEmployee={() => handleShowModal(true)}
+              />
+            }
           />
         </Routes>
       </BrowserRouter>
