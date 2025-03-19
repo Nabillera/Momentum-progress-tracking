@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export default function Navbar({ onAddEmployee }) {
   return (
     <div className="fixed flex w-[100%] items-center justify-between bg-white px-[120px] py-[30px]">
-      <Link to="/">
+      <Link reloadDocument to="/">
         <div className="flex items-center gap-x-[8px]">
           <img src={Momentum} />
           <img src={Hourglass} />

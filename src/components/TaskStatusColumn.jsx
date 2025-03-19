@@ -1,4 +1,5 @@
 import TaskCard from "./TaskCard";
+import { Link } from "react-router-dom";
 
 export default function TaskStatusColumn({ color, status, tasks }) {
   return (
@@ -12,7 +13,11 @@ export default function TaskStatusColumn({ color, status, tasks }) {
       <div className="flex w-[100%] flex-col gap-y-[30px]">
         {tasks.map((task, i) => {
           if (task.status.name == status) {
-            return <TaskCard key={i} taskData={task} color={color}/>;
+            return (
+              <Link to={`/tasks/${task.id}`}>
+                <TaskCard key={i} taskData={task} color={color} />
+              </Link>
+            );
           }
         })}
       </div>
