@@ -4,13 +4,14 @@ import Calendar from "../assets/Calendar.svg";
 import Dropdown from "../components/Dropdown";
 import { format } from "date-fns";
 import { ka } from "date-fns/locale";
+import { putStatus } from "../../api";
 
 export default function OpenTaskDetails({ taskId, details, statuses }) {
   const dueDate = details.due_date.slice(0, 10);
   const formattedDate = format(dueDate, "E - d/M/yyyy", { locale: ka });
 
   const handleChangeStatus = (name, statusId) => {
-    // put request
+    putStatus(taskId, statusId);
   };
 
   return (

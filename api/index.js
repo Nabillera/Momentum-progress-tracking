@@ -18,3 +18,17 @@ export function postEmployee(data) {
     console.log(result);
   });
 }
+
+export function putStatus(taskId, statusId) {
+  fetch(`https://momentum.redberryinternship.ge/api/tasks/${taskId}`, {
+    method: "put",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ status_id: `${statusId}` }),
+  }).then(async (res) => {
+    const result = await res.json();
+    console.log(result);
+  });
+}
