@@ -4,6 +4,7 @@ import Medium from "../assets/PriorityMedium.svg";
 import Low from "../assets/PriorityLow.svg";
 import DepartmentIcon from "../components/DepartmentIcon";
 import OpenTaskDetails from "../components/OpenTaskDetails";
+import CommentSection from "../components/CommentSection";
 
 export default function OpenTaskPage({ data, priorities, statuses }) {
   const taskId = useParams().taskId;
@@ -13,7 +14,7 @@ export default function OpenTaskPage({ data, priorities, statuses }) {
 
   return (
     <div className="flex gap-[223px] pt-[140px] pl-[121px]">
-      <div className="flex flex-col">
+      <div className="flex flex-col w-[715px]">
         <div className="flex gap-[18px]">
           <img src={priorityIcon} className="w-[106px]" />
           <DepartmentIcon departmentId={taskData.employee.department.id} />
@@ -28,7 +29,7 @@ export default function OpenTaskPage({ data, priorities, statuses }) {
           statuses={statuses}
         />
       </div>
-      {/* <CommentSection /> */}
+      <CommentSection taskId={taskId} totalComments={taskData.total_comments}/>
     </div>
   );
 }
