@@ -6,7 +6,6 @@ import { useState } from "react";
 import { postEmployee } from "../../api/index.js";
 
 export default function AddEmployeeModal({ onClose, departments }) {
-  // const departmentOptions = departments.map((department) => department.name);
   const [employeeCredentials, setEmployeeCredentials] = useState({
     name: undefined,
     surname: undefined,
@@ -40,11 +39,11 @@ export default function AddEmployeeModal({ onClose, departments }) {
 
   return (
     <div
-      className="absolute z-1 flex h-[100%] w-[100%] justify-center bg-[#0D0F1026] pt-[118px] backdrop-blur-[5px]"
+      className="absolute z-5 flex h-[100%] w-[100%] justify-center bg-[#0D0F1026] pt-[118px] backdrop-blur-[5px]"
       onClick={onClose}
     >
       <div
-        className="flex h-[766px] w-[913px] flex-col gap-y-[37px] rounded-[10px] bg-white px-[50px] pt-[40px] pb-[60px]"
+        className="flex h-[766px] w-[913px] flex-col justify-between rounded-[10px] bg-white px-[50px] pt-[40px] pb-[60px]"
         onClick={(e) => e.stopPropagation()}
       >
         <img
@@ -57,11 +56,17 @@ export default function AddEmployeeModal({ onClose, departments }) {
             თანამშრომლის დამატება
           </h2>
           <div className="flex w-[100%] gap-x-[45px]">
-            <Input label="სახელი*" onFillField={handleFillField} name="name" />
+            <Input
+              label="სახელი*"
+              onFillField={handleFillField}
+              name="name"
+              isModal
+            />
             <Input
               label="გვარი*"
               onFillField={handleFillField}
               name="surname"
+              isModal
             />
           </div>
 
@@ -69,21 +74,24 @@ export default function AddEmployeeModal({ onClose, departments }) {
 
           <div className="w-[384px] self-start">
             <Dropdown
+              label="დეპარტამენტი*"
               options={departments}
               defaultValue=" "
+              name="department"
               onFillField={handleFillField}
+              isModal
             />
           </div>
 
           <div className="flex gap-x-[22px] self-end">
             <button
-              className="cursor-pointer rounded-[5px] border border-[#8338EC] bg-white px-[16px] py-[10px] text-[18px] leading-[16px] transition hover:border-[#B588F4]"
+              className="h-[42px] cursor-pointer rounded-[5px] border border-[#8338EC] bg-white px-[16px] leading-[16px] text-[#343A40] transition hover:border-[#B588F4]"
               onClick={onClose}
             >
               გაუქმება
             </button>
             <button
-              className="cursor-pointer rounded-[5px] border border-[#8338EC] bg-[#8338EC] px-[16px] py-[10px] text-[18px] leading-[16px] text-white transition hover:border-[#B588F4] hover:bg-[#B588F4]"
+              className="h-[42px] cursor-pointer rounded-[5px] border border-[#8338EC] bg-[#8338EC] px-[16px] text-[18px] leading-[16px] text-white transition hover:border-[#B588F4] hover:bg-[#B588F4]"
               onClick={handleSubmit}
             >
               დაამატე თანამშრომელი
