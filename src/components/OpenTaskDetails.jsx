@@ -16,7 +16,7 @@ export default function OpenTaskDetails({ taskId, details, statuses }) {
 
   return (
     <div>
-      <h2 className="py-[10px] text-[24px] font-medium text-[#2A2A2A]">
+      <h2 className="pt-[63px] pb-[10px] text-[24px] font-medium text-[#2A2A2A]">
         დავალების დეტალები
       </h2>
       <div className="flex">

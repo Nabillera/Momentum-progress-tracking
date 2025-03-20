@@ -7,7 +7,6 @@ import { format } from "date-fns";
 import { ka } from "date-fns/locale";
 
 export default function TaskCard({ taskData, color }) {
-  console.log(taskData);
   const dueDate = taskData.due_date.slice(0, 10);
   const formattedDate = format(dueDate, "dd MMM, yyyy", { locale: ka });
   const priorityIcon =
@@ -40,7 +39,9 @@ export default function TaskCard({ taskData, color }) {
         />
         <div className="flex items-center gap-x-[4px]">
           <img src={Comments} />
-          <span className="text-[14px] text-[#212529]">{taskData.total_comments}</span>
+          <span className="text-[14px] text-[#212529]">
+            {taskData.total_comments}
+          </span>
         </div>
       </div>
     </div>
