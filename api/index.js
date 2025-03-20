@@ -52,3 +52,31 @@ export function postTask(data) {
     console.log(result);
   });
 }
+
+export function getTaskComments(taskId, setter) {
+  fetch(`https://momentum.redberryinternship.ge/api/tasks/${taskId}/comments`, {
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      "Content-Type": "application/json",
+    },
+  }).then(async (res) => {
+    const result = await res.json();
+    console.log(result);
+    setter(result);
+  });
+}
+
+export function postTaskComment(taskId, parentId, text) {
+  fetch(`https://momentum.redberryinternship.ge/api/tasks/${taskId}/comments`, {
+    method: "post",
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ parent_id: parentId, text: text }),
+  }).then(async (res) => {
+    const result = await res.json();
+    console.log(result);
+  });
+}
