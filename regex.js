@@ -7,5 +7,6 @@ export const validMaximumLength = new RegExp("^.{1,255}$");
 export const validCharacters = new RegExp("^[a-zA-Z\u10A0-\u10FF]+$");
 
 export const validMinimumWords = new RegExp(
-  "^(?:\\b[^\\s]+\\b[\\s\\r\\n]*){4,}",
+  "^(?:[\\w\\u{10A0}-\\u{10FF}.,!?;:'\"-]+\\s+){3,}[\\w\\u{10A0}-\\u{10FF}.,!?;:'\"-]+",
+  "u",
 );
