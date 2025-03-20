@@ -1,12 +1,17 @@
 import { useState } from "react";
 import FilterCategory from "./FilterCategory";
 
-export default function FilterSection({ departments, employees, priorities }) {
+export default function FilterSection({
+  departments,
+  employees,
+  priorities,
+  onSubmit,
+}) {
   const [activeCategory, setActiveCategory] = useState();
 
   const handleOpenCategory = (category) => {
     setActiveCategory(category);
-  }
+  };
 
   return (
     <div id="filter-section" className="pl-[120px]">
@@ -15,7 +20,8 @@ export default function FilterSection({ departments, employees, priorities }) {
           onOpen={handleOpenCategory}
           activeCategory={activeCategory}
           list={departments}
-          isDepartment
+          name="department"
+          onSubmit={onSubmit}
         >
           დეპარტამენტი
         </FilterCategory>
@@ -23,6 +29,8 @@ export default function FilterSection({ departments, employees, priorities }) {
           onOpen={handleOpenCategory}
           activeCategory={activeCategory}
           list={priorities}
+          name="priority"
+          onSubmit={onSubmit}
         >
           პრიორიტეტი
         </FilterCategory>
@@ -30,6 +38,8 @@ export default function FilterSection({ departments, employees, priorities }) {
           onOpen={handleOpenCategory}
           activeCategory={activeCategory}
           list={employees}
+          name="employee"
+          onSubmit={onSubmit}
         >
           თანამშრომელი
         </FilterCategory>

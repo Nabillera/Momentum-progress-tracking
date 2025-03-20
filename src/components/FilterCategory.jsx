@@ -8,11 +8,13 @@ export default function FilterCategory({
   onOpen,
   activeCategory,
   list,
+  name,
+  onSubmit,
 }) {
   const isActive = activeCategory == children;
   const activeClass = isActive ? "text-[#8338EC]" : "";
 
-  const handleClick = () => {
+  const handleOpenList = () => {
     if (isActive) {
       onOpen(null);
     } else {
@@ -24,7 +26,7 @@ export default function FilterCategory({
     <>
       <div
         className={`flex h-[44px] w-[199px] cursor-pointer items-center gap-x-[8px] pl-[20px] ${activeClass}`}
-        onClick={handleClick}
+        onClick={handleOpenList}
       >
         <span>{children}</span>
         <img
@@ -34,7 +36,12 @@ export default function FilterCategory({
       </div>
       {isActive &&
         createPortal(
-          <FilterList category={children} list={list} />,
+          <FilterList
+            category={name}
+            list={list}
+            onSubmit={onSubmit}
+            onOpen={handleOpenList}
+          />,
           document.getElementById("filter-section"),
         )}
     </>

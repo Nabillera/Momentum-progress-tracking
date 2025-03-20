@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FilterItem from "./FilterItem";
 
-export default function FilterList({ category, list }) {
+export default function FilterList({ category, list, onSubmit, onOpen }) {
   const [checkedFilters, setCheckedFilters] = useState([]);
 
   const handleFilterCheck = (optionValue) => {
@@ -28,7 +28,8 @@ export default function FilterList({ category, list }) {
   };
 
   const handleSubmitFilters = () => {
-    // choose button function
+    onSubmit(category, checkedFilters);
+    onOpen();
   };
 
   return (
