@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import FilterSection from "../components/FilterSection";
 import TaskDisplay from "../components/TaskDisplay";
 import Clear from "../assets/Clear.svg";
@@ -12,20 +13,36 @@ export default function HomePage({ data }) {
 
   const handleSubmitFilter = (category, value) => {
     setSelectedFilters((prev) => {
-      return {
+      const updatedFilters = {
         ...prev,
         [category]: [...value],
       };
+
+      localStorage.setItem(
+        "department",
+        JSON.stringify(updatedFilters.department),
+      );
+      localStorage.setItem("priority", JSON.stringify(updatedFilters.priority));
+      localStorage.setItem("employee", JSON.stringify(updatedFilters.employee));
+      return updatedFilters;
     });
   };
 
   const handleRemoveFilter = (category, value) => {
     setSelectedFilters((prev) => {
-      return {
+      const updatedFilters = {
         ...prev,
         [category]: prev[category].filter((item) => item != value),
       };
+      localStorage.setItem(category, JSON.stringify(updatedFilters[category]));
+      return updatedFilters;
     });
+  };
+
+  const clearLocalStorage = () => {
+    localStorage.setItem("department", JSON.stringify([]));
+    localStorage.setItem("priority", JSON.stringify([]));
+    localStorage.setItem("employee", JSON.stringify([]));
   };
 
   const clearFilters = () => {
@@ -34,17 +51,21 @@ export default function HomePage({ data }) {
       priority: [],
       employee: [],
     });
+    clearLocalStorage();
   };
 
+  useEffect(() => {
+    clearLocalStorage();
+  }, [location]);
+
   const handleFilterTasks = (taskList) => {
-    let departments = [];
-    selectedFilters.department.forEach((item) => {
-      departments.push(item);
-    });
-    let priorities = [];
-    selectedFilters.priority.forEach((item) => {
-      priorities.push(item);
-    });
+    const savedDepartments = JSON.parse(localStorage.getItem("department"));
+    let departments = [...savedDepartments];
+
+    const savedPriorities = JSON.parse(localStorage.getItem("priority"));
+    let priorities = [...savedPriorities];
+
+    const savedEmployee = JSON.parse(localStorage.getItem("employee"));
     let filteredTasks = taskList
       .filter(
         (task1) =>
@@ -57,9 +78,9 @@ export default function HomePage({ data }) {
       )
       .filter(
         (task3) =>
-          selectedFilters.employee[0] == undefined ||
-          (selectedFilters.employee[0].includes(task3.employee.name) &&
-            selectedFilters.employee[0].includes(task3.employee.surname)),
+          savedEmployee[0] == undefined ||
+          (savedEmployee[0].includes(task3.employee.name) &&
+            savedEmployee[0].includes(task3.employee.surname)),
       );
     return filteredTasks;
   };
