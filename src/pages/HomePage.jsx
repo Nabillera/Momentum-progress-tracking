@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import FilterSection from "../components/FilterSection";
 import TaskDisplay from "../components/TaskDisplay";
 import Clear from "../assets/Clear.svg";
 
-export default function HomePage({ data }) {
+export default function HomePage({ data, onClearStorage }) {
   const [selectedFilters, setSelectedFilters] = useState({
     department: [],
     priority: [],
@@ -39,26 +38,23 @@ export default function HomePage({ data }) {
     });
   };
 
-  const clearLocalStorage = () => {
-    localStorage.setItem("department", JSON.stringify([]));
-    localStorage.setItem("priority", JSON.stringify([]));
-    localStorage.setItem("employee", JSON.stringify([]));
-  };
-
   const clearFilters = () => {
     setSelectedFilters({
       department: [],
       priority: [],
       employee: [],
     });
-    clearLocalStorage();
+    onClearStorage();
   };
 
-  useEffect(() => {
-    clearLocalStorage();
-  }, [location]);
-
   const handleFilterTasks = (taskList) => {
+    if (
+      localStorage.getItem("department") == null &&
+      localStorage.getItem("priority") == null &&
+      localStorage.getItem("employee") == null
+    ) {
+      return taskList;
+    }
     const savedDepartments = JSON.parse(localStorage.getItem("department"));
     let departments = [...savedDepartments];
 

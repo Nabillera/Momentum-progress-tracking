@@ -56,10 +56,19 @@ function App() {
     fetchData();
   }, []);
 
+  const setClearLocalStorage = () => {
+    localStorage.setItem("department", JSON.stringify([]));
+    localStorage.setItem("priority", JSON.stringify([]));
+    localStorage.setItem("employee", JSON.stringify([]));
+  };
+
   return (
     <div>
       <BrowserRouter>
-        <Navbar onAddEmployee={() => handleShowModal(true)} />
+        <Navbar
+          onAddEmployee={() => handleShowModal(true)}
+          onClearStorage={setClearLocalStorage}
+        />
         {showModal && (
           <AddEmployeeModal
             onClose={() => handleShowModal(false)}
@@ -67,7 +76,15 @@ function App() {
           />
         )}
         <Routes id="routes">
-          <Route index element={<HomePage data={fetchedData} />} />
+          <Route
+            index
+            element={
+              <HomePage
+                data={fetchedData}
+                onClearStorage={setClearLocalStorage}
+              />
+            }
+          />
           <Route
             path="create-task"
             element={
@@ -84,6 +101,7 @@ function App() {
                 data={fetchedData.tasks}
                 priorities={fetchedData.priorities}
                 statuses={fetchedData.statuses}
+                onClick={setClearLocalStorage}
               />
             }
           />
